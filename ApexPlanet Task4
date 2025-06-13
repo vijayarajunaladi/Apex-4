@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Styling and JavaScript</title>
+  <style>
+    /* Base Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 10px;
+      flex: 1 1 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* Carousel */
+    .carousel img {
+      width: 100%;
+      display: none;
+    }
+    .carousel img.active {
+      display: block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .box {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Advanced Styling and JavaScript Demo</h1>
+
+  <div class="container">
+
+    <!-- Quiz Box -->
+    <div class="box" id="quizBox">
+      <h2>Simple Quiz</h2>
+      <p id="question">What is 2 + 2?</p>
+      <button onclick="checkAnswer(4)">4</button>
+      <button onclick="checkAnswer(3)">3</button>
+      <p id="quizResult"></p>
+    </div>
+
+    <!-- Carousel Box -->
+    <div class="box">
+      <h2>Image Carousel</h2>
+      <div class="carousel">
+        <img src="https://via.placeholder.com/300x200/FF5733" class="active" />
+        <img src="https://via.placeholder.com/300x200/33C1FF" />
+        <img src="https://via.placeholder.com/300x200/75FF33" />
+      </div>
+      <button onclick="nextImage()">Next Image</button>
+    </div>
+
+    <!-- API Box -->
+    <div class="box">
+      <h2>Joke Generator (API)</h2>
+      <p id="joke">Click below to load a joke</p>
+      <button onclick="getJoke()">Get Joke</button>
+    </div>
+
+  </div>
+
+  <script>
+    // === Quiz Script ===
+    function checkAnswer(answer) {
+      const result = document.getElementById("quizResult");
+      result.innerText = answer === 4 ? "Correct!" : "Wrong Answer!";
+    }
+
+    // === Carousel Script ===
+    let currentIndex = 0;
+    const images = document.querySelectorAll(".carousel img");
+
+    function nextImage() {
+      images[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % images.length;
+      images[currentIndex].classList.add("active");
+    }
+
+    // === API Script (Joke) ===
+    async function getJoke() {
+      const res = await fetch('https://v2.jokeapi.dev/joke/Any?type=single');
+      const data = await res.json();
+      document.getElementById("joke").innerText = data.joke || "No joke found!";
+    }
+  </script>
+
+</body>
+</html>
